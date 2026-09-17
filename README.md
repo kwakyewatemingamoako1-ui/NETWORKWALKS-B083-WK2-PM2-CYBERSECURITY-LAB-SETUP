@@ -64,13 +64,25 @@ I performed reconnaissance against the `networkwalks.com` domain using six Kali 
 
 # Step 1
 
-*   **whois:**
+*   **Whois:**
 
  Used to obtain publicly available domain registration details and identify the domain's designated name servers, mapping out registrar data and hosting infrastructure.
 
 <img width="1920" height="922" alt="Screenshot_2026-09-16_17_20_21" src="https://github.com/user-attachments/assets/4713a829-8bbc-4908-80dd-026212b34d1e" />
 
-<br><br>
+### Tool Findings & Analysis
+
+*   **Registrar:** GoDaddy.com, LLC
+*   **Registration Timeline:** Registered on November 6, 2019, with an expiration date of November 6, 2027.
+*   **Name Servers:** `NS6135/NS6136.HOSTGATOR.COM` and `NS29/NS30.DOMAINCONTROL.COM` (indicating hosting via HostGator).
+*   **Registrant Identity:** Privacy-protected via Domains By Proxy, LLC (Tempe, Arizona).
+*   **Abuse Contact:** `abuse@godaddy.com`
+
+### Attacker perspective & Utility:
+
+Name servers immediately reveal the underlying hosting provider. While registrant privacy successfully obscures the real asset owner, the registrar and abuse contact details remain useful for tracking domain lifecycles or planning targeted social engineering vectors.
+
+<br>
 
 # Step 2
 
@@ -80,7 +92,17 @@ Deployed to fingerprint technologies powering the target website. The scan succe
 
 <img width="1920" height="922" alt="Screenshot_2026-09-16_19_01_21" src="https://github.com/user-attachments/assets/ae38a2bc-f628-4b8c-832c-41b5430f9933" />
 
-<br><br>
+#### Tool Findings & Analysis
+
+*   **Content Management System (CMS):** WordPress 7.1 with plugin **WP Download Manager 3.3.58**.
+*   **Web Server & IP:** Apache running on IP address `192.232.216.135`.
+*   **Technology Stack:** Bootstrap 7.1, jQuery 3.7.1, HTML5, and Google Tag Manager.
+
+### Attacker Perspective & Utility: 
+  
+ Pinpointing exact core and plugin versions enables an attacker to instantly query vulnerability databases (like CVE databases) to identify known, unpatched flaws targeting that specific software stack.
+
+<br>
 
 # Step 3
 
@@ -90,7 +112,15 @@ Utilized to resolve the target domain name to its corresponding IP address, succ
 
 <img width="1920" height="922" alt="Screenshot_2026-09-16_20_07_02" src="https://github.com/user-attachments/assets/8c69c383-e9b5-4263-a76a-5d3ae6f9440e" />
 
-<br><br>
+#### Tool Findings & Analysis
+
+*   **Resolved IP Address:** `192.232.216.135` (queried via Google public DNS server `8.8.8.8`).
+
+### Attacker Perspective & Utility:  
+    
+Translates human-readable domain names into precise numeric IP addresses, establishing the foundation for direct network scanning, port enumeration, and infrastructure mapping.
+
+<br>
 
 # Step 4
 
@@ -100,6 +130,14 @@ Executed with the `-I` option to fetch and inspect HTTP response headers. This r
 
 <img width="1920" height="922" alt="Screenshot_2026-09-16_20_10_34" src="https://github.com/user-attachments/assets/1c137c05-c36b-441c-bfed-3b54a8231213" />
 
+#### Curl & HTTP Header Inspection
+
+*   **Response Headers:** HTTP/2 200 OK, Server: Apache.
+*   **Exposed Endpoints & Caching:** WordPress REST API exposed at `/wp-json/`; caching headers identified (`x-nginx-cache`, `x-endurance-cache-level`, indicating an Endurance/HostGator stack).
+*   **Cookies:** Sets the `__wpdm_client` cookie (configured with Secure and HttpOnly flags).
+
+### Attacker Perspective & Utility:  
+HTTP response headers leak the underlying web server, caching framework, and hidden application endpoints (such as the REST API) without requiring a full page load, providing a prime reconnaissance and attack surface for WordPress environments.
 <br><br>
 
 # Step 5
