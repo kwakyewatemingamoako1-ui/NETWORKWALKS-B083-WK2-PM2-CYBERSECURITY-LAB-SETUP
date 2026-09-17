@@ -79,4 +79,38 @@ I used Zenmap to discover live hosts on my local network. Since I was connected 
 *   **Subnet Analysis:** 
     Unlike a standard `255.255.255.0` mask (`/24`), this `/28` mask limits the network to 16 total IP addresses. I adjusted my scanning target range accordingly to fit this restricted subnet.
     
+<img width="1896" height="1016" alt="Screenshot 2026-09-17 145355" src="https://github.com/user-attachments/assets/5f69f6d7-949e-4258-b200-dad3406147db" />
     
+*   **Scan Results — 2 Live Hosts Found:**
+    1. `172.20.10.1` — Mobile hotspot gateway (MAC address: `5A:AD:12:C2:56:64`)
+    2. `172.20.10.9` — Local machine / laptop (MAC address: `C0:BF:BE:4D:F0:66`, verified via `ipconfig /all`)
+
+*   **Topology Mapping:** 
+    After completing the scan, I navigated to the **Topology** tab within Zenmap, enabled the network legend, and exported the visual diagram as a PDF file for documentation.
+
+  <img width="1892" height="1011" alt="Screenshot 2026-09-17 145438" src="https://github.com/user-attachments/assets/b047f83a-ffd1-48ae-b5a7-ca542dc9f1c3" />
+
+ 
+  
+## 📊 5. Risk Analysis / Impact
+
+Based on the intelligence gathered during the footprinting and network scanning exercises, I identified the following potential risks and observations:
+
+| # | Risk / Finding | Evidence / Observation | Potential Impact | Risk Level |
+| :---: | :--- | :--- | :--- | :---: |
+| **1** | Web technology information exposed | WhatWeb identified WordPress and WP Download Manager | Attackers may use exposed version details to identify software requiring security review | 🟠 Medium |
+| **2** | Server IP address identifiable | Nslookup resolved the domain to `192.232.216.135` | Provides direct information regarding the network location of the web service | 🟢 Low |
+| **3** | HTTP technical information exposed | Curl returned HTTP response headers and exposed `/wp-json/` | May assist in deeper technology fingerprinting and structural enumeration | 🟢 Low |
+| **4** | WAF technology identifiable | Wafw00f identified ModSecurity (SpiderLabs) | Reveals specific defensive architecture details about the target web application | 🟢 Low |
+| **5** | DNS infrastructure information exposed | DNSRecon identified DNS, mail, and service-related records | Helps build a broader infrastructure and asset profile of the organization | 🟠 Medium |
+| **6** | Multiple live hosts visible on local network | Zenmap identified live hosts within the local network segment | Highlights the visibility of connected devices; unknown or unauthorized hosts may be present | 🟠 Medium |
+
+* **Risk Level Key:** ⚫ Critical | 🟠 Medium | 🟢 Low
+
+> **Important Note:** 
+> * The risks detailed above represent passive observations derived from footprinting and scanning exercises, **not confirmed vulnerabilities**.
+> * These modules focused exclusively on information gathering and host discovery. No active exploitation or vulnerability validation was conducted.
+> * Consequently, the exposure of details such as software versions, IP addresses, or DNS records does not inherently indicate that a system is vulnerable. Further authorized security testing would be required to validate any exploitable security flaws.
+
+
+  
