@@ -112,5 +112,53 @@ Based on the intelligence gathered during the footprinting and network scanning 
 > * These modules focused exclusively on information gathering and host discovery. No active exploitation or vulnerability validation was conducted.
 > * Consequently, the exposure of details such as software versions, IP addresses, or DNS records does not inherently indicate that a system is vulnerable. Further authorized security testing would be required to validate any exploitable security flaws.
 
+## 🛡️ 6. Recommendations
 
+Based on the findings and observations gathered during these activities, I recommend implementing the following security improvements:
+
+1. **Review Publicly Exposed Technology Information**  
+   Organizations should regularly audit and minimize what software, content management systems (CMS), and plugin details are publicly visible to external observers.
+
+2. **Keep Software Updated**  
+   CMS platforms, plugins, and underlying web stack technologies must be patched promptly and cross-referenced against current vendor security advisories.
+
+3. **Review HTTP Headers**  
+   HTTP response headers should be fine-tuned or obfuscated to restrict the leakage of unnecessary server versions and internal technical paths (such as REST API endpoints).
+
+4. **Audit DNS Records Regularly**  
+   Periodically review public DNS zones to ensure that only required services, mail exchangers, and infrastructure records are exposed to the public internet.
+
+5. **Properly Configure and Monitor the WAF**  
+   Keep defensive controls like ModSecurity active and well-tuned, ensuring rules are regularly updated to catch automated scanners and common web attacks.
+
+6. **Perform Regular Internal Network Discovery**  
+   Organizations should schedule routine internal network scans to maintain situational awareness of active devices and listening services.
+
+7. **Investigate Unknown Devices**  
+   Any unexpected or unrecognized device uncovered during internal network enumeration should be immediately triaged, verified, and accounted for.
+
+8. **Maintain Accurate Network Documentation**  
+   Network topologies, asset inventories, and device information must be documented comprehensively and updated regularly to prevent blind spots.
+
+9. **Enforce Authorization Protocols for Security Testing**  
+   Ensure that reconnaissance, vulnerability assessment, and penetration testing activities are strictly restricted to systems and networks where explicit written authorization has been secured.
   
+## 🏁 7. Conclusion
+
+During Week 2 of my Cybersecurity & Ethical Hacking internship, I successfully completed practical modules focused on footprinting, reconnaissance, and network scanning.
+
+*   **Footprinting & Intelligence Gathering:** By utilizing six distinct Kali Linux tools against the target domain, I gained hands-on experience in mapping digital footprints. I observed how WHOIS exposes domain registration data, WhatWeb fingerprints web technologies, Nslookup handles domain resolution, Curl uncovers hidden HTTP headers and API endpoints, Wafw00f identifies protective defensive controls, and DNSRecon maps out underlying infrastructure records.
+*   **Network Discovery:** Through Zenmap, I successfully analyzed my local subnet configuration, identified live hosts, gathered critical IP and MAC address metrics, and generated a structural network topology diagram.
+*   **Key Takeaways on Security Assessment:** These exercises reinforced the foundational reality that information gathering is critical to cybersecurity. Long before any active exploitation takes place, an analyst can uncover a substantial amount of operational intelligence simply by analyzing public artifacts and network responses.
+*   **The Importance of Documentation:** I also learned that technical findings require clear, structured reporting. A thorough security report must explicitly detail the methodology executed, observations discovered, contextual risks, and actionable recommendations for remediation.
+*   **Authorization & Ethics:** Finally, these practical labs underscored the absolute requirement that all reconnaissance and scanning activities must remain bound strictly within authorized scopes and legal parameters.
+
+## 🛠️ Problems Faced & Solutions
+
+### Problem 1: Non-standard Subnet on My Network
+
+* **The Challenge:**  
+  The practical guide assumed a typical home network subnet mask of `255.255.255.0` (a `/24` network containing 256 addresses). However, because my test environment was connected via a mobile hotspot, my actual local network utilized a `255.255.255.240` mask (a `/28` network restricted to just 16 addresses). Blindly copying the guide's default range would have resulted in inaccurate or inefficient scanning parameters.
+
+* **The Fix:**  
+  I executed `ipconfig` first to verify my local network's exact adapter configurations rather than assuming it matched the documentation. Using this real-world data, I calculated and targeted the correct subnet range (`172.20.10.0/28`) instead of the standard `/24` block, ensuring my scan accurately covered only the active local address space.
