@@ -15,6 +15,10 @@
 >
 ---
 
+🛠️ Completed Modules & Tooling
+* W2-PM1 — Multiple Kali Tools (Reconnaissance, enumeration, and footprinting utility execution)
+
+* W2-PM5 — Zenmap Scanning (Advanced network mapping, host discovery, and service port auditing)
 # Project Scope & Target Authorization
 
 > **Status Notice:** All activities conducted within this repository and against the specified targets are authorized, legal, and bound by explicit written permission.
