@@ -285,7 +285,7 @@ After applying this change, I restarted the network connection and verified that
 **Kwakyewa Teming-Amoako**  
 Cybersecurity Professional B083 
 
-LinkedIn:
+LinkedIn:https://www.linkedin.com/public-profile/settings/?trk=d_flagship3_profile_self_view_public_profile&lipi=urn%3Ali%3Apage%3Ad_flagship3_profile_view_base%3BQyMJwNkPRuWS595FE6F%2Fsg%3D%3D
 
 *Networkwalks Cybersecurity Internship Program*
 
