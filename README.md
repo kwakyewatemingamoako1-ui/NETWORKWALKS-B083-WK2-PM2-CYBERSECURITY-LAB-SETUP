@@ -62,13 +62,65 @@ Together, these modules demonstrate the transition from passive intelligence gat
 
 I performed reconnaissance against the `networkwalks.com` domain using six Kali Linux tools: WHOIS, WhatWeb, Nslookup, Curl, Wafw00f, and DNSRecon. Each tool was utilized to collect a distinct category of intelligence regarding the target infrastructure.
 
-*   **WHOIS:** Used to obtain publicly available domain registration details and identify the domain's designated name servers, mapping out registrar data and hosting infrastructure.
-  
-*   **WhatWeb:** Deployed to fingerprint technologies powering the target website. The scan successfully identified **WordPress 7.0.4** and **WP Download Manager 3.3.58**, alongside other exposed application details.
-*   **Nslookup:** Utilized to resolve the target domain name to its corresponding IP address, successfully identifying `192.232.216.135`.
-*   **Curl:** Executed with the `-I` option to fetch and inspect HTTP response headers. This revealed details about the web application and exposed the active **WordPress REST API** endpoint (`/wp-json/`).
-*   **Wafw00f:** Run to detect whether a Web Application Firewall (WAF) was actively protecting the web server. The tool identified **ModSecurity (SpiderLabs)**.
-*   **DNSRecon:** Employed to systematically enumerate DNS records, gathering comprehensive data on name servers, mail servers, SPF/TXT records, service records, and underlying DNS server software versions.
+# Step 1
+
+*   **whois:**
+
+ Used to obtain publicly available domain registration details and identify the domain's designated name servers, mapping out registrar data and hosting infrastructure.
+
+<img width="1920" height="922" alt="Screenshot_2026-09-16_17_20_21" src="https://github.com/user-attachments/assets/4713a829-8bbc-4908-80dd-026212b34d1e" />
+
+<br><br>
+
+# Step 2
+
+* **WhatWeb:**
+
+Deployed to fingerprint technologies powering the target website. The scan successfully identified **WordPress 7.0.4** and **WP Download Manager 3.3.58**, alongside other exposed application details.
+
+<img width="1920" height="922" alt="Screenshot_2026-09-16_19_01_21" src="https://github.com/user-attachments/assets/ae38a2bc-f628-4b8c-832c-41b5430f9933" />
+
+<br><br>
+
+# Step 3
+
+*   **Nslookup:**
+
+Utilized to resolve the target domain name to its corresponding IP address, successfully identifying `192.232.216.135`.
+
+<img width="1920" height="922" alt="Screenshot_2026-09-16_20_07_02" src="https://github.com/user-attachments/assets/8c69c383-e9b5-4263-a76a-5d3ae6f9440e" />
+
+<br><br>
+
+# Step 4
+
+*   **Curl:**
+
+Executed with the `-I` option to fetch and inspect HTTP response headers. This revealed details about the web application and exposed the active **WordPress REST API** endpoint (`/wp-json/`).
+
+<img width="1920" height="922" alt="Screenshot_2026-09-16_20_10_34" src="https://github.com/user-attachments/assets/1c137c05-c36b-441c-bfed-3b54a8231213" />
+
+<br><br>
+
+# Step 5
+
+*   **Wafw00f:**
+
+Run to detect whether a Web Application Firewall (WAF) was actively protecting the web server. The tool identified **ModSecurity (SpiderLabs)**.
+
+<img width="1920" height="922" alt="Screenshot_2026-09-16_20_12_37" src="https://github.com/user-attachments/assets/1546d04d-ed2c-45be-bdaf-46f86fcd42f2" />
+
+<br><br>
+
+# Step 6
+
+*   **DNSRecon:**
+
+Employed to systematically enumerate DNS records, gathering comprehensive data on name servers, mail servers, SPF/TXT records, service records, and underlying DNS server software versions.
+
+<img width="1920" height="922" alt="Screenshot_2026-09-16_20_14_53" src="https://github.com/user-attachments/assets/0da027e3-c95e-4ce7-b64b-17bbfc4692a0" />
+
+<br><br>
 
 ### 4.2 Network Scanning with Zenmap
 
@@ -90,9 +142,9 @@ I used Zenmap to discover live hosts on my local network. Since I was connected 
 
   <img width="1892" height="1011" alt="Screenshot 2026-09-17 145438" src="https://github.com/user-attachments/assets/b047f83a-ffd1-48ae-b5a7-ca542dc9f1c3" />
 
+ <br><br>
  
-  
-## 📊 5. Risk Analysis / Impact
+  ## 📊 5. Risk Analysis / Impact
 
 Based on the intelligence gathered during the footprinting and network scanning exercises, I identified the following potential risks and observations:
 
@@ -155,10 +207,39 @@ During Week 2 of my Cybersecurity & Ethical Hacking internship, I successfully c
 
 ## 🛠️ Problems Faced & Solutions
 
-### Problem 1: Non-standard Subnet on My Network
+### Problem 1: Internet Connectivity Loss After Static IP Configuration
+
+* **The Challenge:**  
+  Following the manual configuration of static IPv4 settings, internet connectivity failed or dropped depending on how Kali Linux and NetworkManager handled the network interface initialization (often related to Duplicate Address Detection (DAD) timeouts hanging the connection).
+
+* **The Fix:**  
+  I resolved the issue by modifying the NetworkManager profile to bypass or disable the DAD timeout using the following command:
+  ```bash
+  sudo nmcli connection modify "Wired connection 1" ipv4.dad-timeout 0
+
+After applying this change, I restarted the network connection and verified that internet connectivity was fully restored.
+
+
+### Problem 2: Non-standard Subnet on My Network
 
 * **The Challenge:**  
   The practical guide assumed a typical home network subnet mask of `255.255.255.0` (a `/24` network containing 256 addresses). However, because my test environment was connected via a mobile hotspot, my actual local network utilized a `255.255.255.240` mask (a `/28` network restricted to just 16 addresses). Blindly copying the guide's default range would have resulted in inaccurate or inefficient scanning parameters.
 
 * **The Fix:**  
   I executed `ipconfig` first to verify my local network's exact adapter configurations rather than assuming it matched the documentation. Using this real-world data, I calculated and targeted the correct subnet range (`172.20.10.0/28`) instead of the standard `/24` block, ensuring my scan accurately covered only the active local address space.
+
+## 👤 Author
+
+**Kwakyewa Teming-Amoako**  
+Cybersecurity Professional B083 
+
+LinkedIn:
+
+*Networkwalks Cybersecurity Internship Program*
+
+## 📌 Project Information
+
+* **Program Name:** Cybersecurity at Networkwalks
+* **Week:** Week 2
+* **Project:** Cybersecurity & Pentesting Lab Setup
+* **Repository Platform:** GitHub
