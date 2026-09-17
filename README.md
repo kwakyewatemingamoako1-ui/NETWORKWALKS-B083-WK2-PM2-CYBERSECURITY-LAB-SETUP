@@ -130,7 +130,7 @@ Executed with the `-I` option to fetch and inspect HTTP response headers. This r
 
 <img width="1920" height="922" alt="Screenshot_2026-09-16_20_10_34" src="https://github.com/user-attachments/assets/1c137c05-c36b-441c-bfed-3b54a8231213" />
 
-#### Curl & HTTP Header Inspection
+#### Tool Findings & Analysis
 
 *   **Response Headers:** HTTP/2 200 OK, Server: Apache.
 *   **Exposed Endpoints & Caching:** WordPress REST API exposed at `/wp-json/`; caching headers identified (`x-nginx-cache`, `x-endurance-cache-level`, indicating an Endurance/HostGator stack).
@@ -148,6 +148,12 @@ Run to detect whether a Web Application Firewall (WAF) was actively protecting t
 
 <img width="1920" height="922" alt="Screenshot_2026-09-16_20_12_37" src="https://github.com/user-attachments/assets/1546d04d-ed2c-45be-bdaf-46f86fcd42f2" />
 
+#### Tool Findings & Analysis
+
+*   **Web Application Firewall:** Detected **ModSecurity (SpiderLabs)**.
+
+### Attacker Perspective & Utility:  
+ Confirming the presence of a protective firewall signals that naive, automated attack attempts will likely be blocked or logged. This forces an attacker to slow down, alter their traffic signatures, or attempt evasion and bypass techniques.
 <br><br>
 
 # Step 6
@@ -158,6 +164,14 @@ Employed to systematically enumerate DNS records, gathering comprehensive data o
 
 <img width="1920" height="922" alt="Screenshot_2026-09-16_20_14_53" src="https://github.com/user-attachments/assets/0da027e3-c95e-4ce7-b64b-17bbfc4692a0" />
 
+#### Tool Findings & Analysis
+*   **Mail Server:** `mail.networkwalks.com` resolving to `192.232.216.135`.
+*   **DNS Software:** BIND `9.16.23`.
+*   **SPF Record:** `v=spf1 +a +mx +ip4:50.87.144.87 include:websitewelcome.com ~all`.
+*   **SRV Records:** 8 records identified, all pointing to `_autodiscover._tcp` and mapping to cPanel email hosts (`cpanelemaildiscovery.cpanel.net`), confirming the underlying cPanel environment.
+
+### Attacker Perspective & Utility:  
+ Maps out the complete DNS footprint. Every individual record—ranging from mail server targets and underlying DNS software version strings to SPF policies and SRV configurations—reveals crucial architectural setup details and potential structural footholds.
 <br><br>
 
 ### 4.2 Network Scanning with Zenmap
